@@ -1,21 +1,25 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 // schema means shape of data
 
 const notesSchema = new Schema({
-    notes_title: {
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    title: {
         type: String,
         required: true
     },
-    notes_description: {
+    description: {
         type: String,
         required: true
     },
-    notes_tags: {
+    tags: {
         type: String
     },
-    notes_created_date: {
+    date: {
         type: Date,
         default: Date.now
     },
