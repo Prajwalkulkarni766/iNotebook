@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import noteContext from '../Contexts/notes/noteContext';
 import NotesItem from './NotesItem';
 import NoteModal from './NoteModal';
@@ -9,7 +9,12 @@ import Col from 'react-bootstrap/Col';
 export default function Notes() {
     // taking context
     const context = useContext(noteContext);
-    const { notes, AddNewNote } = context;
+    // importing  notes, AddNewNote and getNotes function
+    const { notes, AddNewNote, getNotes } = context;
+    // this will get all notes realted to logged in user on first render only
+    useEffect(() => {
+        getNotes()
+    }, []);
     // this function take the note and import the structure of the note
     return (
         <div className="my-3">
@@ -20,6 +25,9 @@ export default function Notes() {
                 </Row>
             </Container>
             <div className="container my-3 row">
+                <div className="container mx-3">
+                    {notes.length === 0 && 'No notes to display'}
+                </div>
                 {notes.map((note) => {
                     return <NotesItem key={note._id} note={note} />
                 })}

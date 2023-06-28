@@ -13,7 +13,7 @@ export default function NoteModal(props) {
     // state of showing modal of new note
     const [show, setShow] = useState(false);
     // stae of note if user inputed title and description of new note
-    const [note, setNote] = useState({ id:noteId ,title: valueForTitle, description: valueForDescription });
+    const [note, setNote] = useState({ id: noteId, title: valueForTitle, description: valueForDescription });
     // function to close new note modal
     const handleClose = () => setShow(false);
     // function to open new note modal
@@ -23,6 +23,9 @@ export default function NoteModal(props) {
         e.preventDefault();
         // new note
         noteFunction(note);
+        if (modalTitle === "Add New") {
+            setNote({ ...note, title: "", description: "" });
+        }
         handleClose();
     }
     // function to clear note state value when user click on close button of new note modal
@@ -42,7 +45,7 @@ export default function NoteModal(props) {
     return (
         <>
             <i className={`fa-solid ${iconType}`} onClick={handleShow}></i>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handelNewNoteOnClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{modalTitle} Note</Modal.Title>
                 </Modal.Header>
@@ -64,16 +67,18 @@ export default function NoteModal(props) {
                             <Form.Control
                                 as="textarea"
                                 name="description"
+                                placeholder="Description of the Note"
                                 rows={5}
                                 value={note.description}
                                 onChange={handleOnchange}
-                                style={{ resize: "none" }} />
+                                style={{ resize: "none" }}
+                            />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handelNewNoteOnClose}>Close</Button>
-                    <Button variant="primary" onClick={handelNewNoteOnSubmit}>Save Note</Button>
+                    <Button disabled={note.title.length < 1 || note.description.length < 1} variant="success" onClick={handelNewNoteOnSubmit}>Save Note</Button>
                 </Modal.Footer>
             </Modal>
         </>

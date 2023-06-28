@@ -6,6 +6,7 @@ import NoteModal from './NoteModal';
 export default function NotesItem(props) {
     // taking context
     const context = useContext(noteContext);
+    // importing DeleteNote and EditNote function
     const { DeleteNote, EditNote } = context;
     // this function make a structure of note
     return (

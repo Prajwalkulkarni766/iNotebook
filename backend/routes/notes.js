@@ -30,8 +30,8 @@ router.get('/fetchallnotes', fetchUser, async (req, res) => {
 // login required end-point: /api/notes/savenotes , this will save the notes
 // route 2
 router.post('/savenotes', fetchUser,
-    body("title", "Enter a valid title. Title require minimum 3 characters").isLength({ min: 3 }),
-    body("description", "Enter a valid description. Description must contain atleast 8 characters.").isLength({ min: 8 })
+    body("title", "Enter a valid title. Title require minimum 3 characters").isLength({ min: 1 }),
+    body("description", "Enter a valid description. Description must contain atleast 8 characters.").isLength({ min: 1 })
     , async (req, res) => {
         // if there are errors then return bad request
         const errors = validationResult(req);
