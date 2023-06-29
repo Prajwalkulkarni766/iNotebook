@@ -23,10 +23,12 @@ router.post('/createuser',
     body("password", "Enter a valid password. Password must contain atleast 8 characters.").isLength({ min: 8 }),
     body("name", "Enter a valid name").isLength({ min: 1 })
     , async (req, res) => {
+        // setting success to understand status of work if it is false then work is not done or some error occurred if it is true then work is done or work is compeleted
+        let req_status = false;
         // if there are errors then return bad request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ req_status, errors: errors.array() });
         }
         try {
             // checking the user with this email exists or not
@@ -47,8 +49,9 @@ router.post('/createuser',
                         id: user.id
                     }
                 }
+                req_status = true;
                 const authenticationToken = jwt.sign(data, JWT_SECRET);
-                return res.json({ authenticationToken });
+                return res.json({ req_status, authenticationToken });
                 // return res.status(200).json(newUser);
             }
             // if user with entered email exists then it will send an error message
@@ -69,6 +72,8 @@ router.post('/loginuser',
     body("email", "Enter a valid email").notEmpty().isEmail(),
     body("password", "Enter a valid password. Password must contain atleast 8 characters.").notEmpty().isLength({ min: 8 })
     , async (req, res) => {
+        // setting success to understand status of work if it is false then work is not done or some error occurred if it is true then work is done or work is compeleted
+        let req_status = false;
         // if there are errors then return bad request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -78,11 +83,11 @@ router.post('/loginuser',
             const { email, password } = req.body;
             let User = await user.findOne({ email });
             if (!User) {
-                return res.status(400).json({ errors: "Login with correct credentials" });
+                return res.status(400).json({ req_status, errors: "Login with correct credentials" });
             }
             let passwordcheck = await bcrypt.compare(password, User.password);
             if (!passwordcheck) {
-                return res.status(400).json({ errors: "Login with correct credentials" });
+                return res.status(400).json({ req_status, errors: "Login with correct credentials" });
             }
             const data = {
                 user: {
@@ -91,7 +96,8 @@ router.post('/loginuser',
             }
             // console.log(data);
             const authenticationToken = jwt.sign(data, JWT_SECRET);
-            return res.json({ authenticationToken });
+            req_status = true;
+            return res.json({ req_status, authenticationToken });
 
         }
         // if any other error occuredd with data base 

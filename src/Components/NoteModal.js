@@ -9,7 +9,7 @@ export default function NoteModal(props) {
     // modaltitle means title of modal whether it can be add new note or edit note
     // value for title means title if note is new then it is blank otherwise it dispaly the title of selected note
     // value for description means description if note is new then it is blank otherwise it dispaly the description of selected note
-    const { iconType, noteId, noteFunction, modalTitle, valueForTitle, valueForDescription } = props;
+    const { iconType, noteId, noteFunction, modalTitle, valueForTitle, valueForDescription, showAlert } = props;
     // state of showing modal of new note
     const [show, setShow] = useState(false);
     // stae of note if user inputed title and description of new note
@@ -27,6 +27,12 @@ export default function NoteModal(props) {
             setNote({ ...note, title: "", description: "" });
         }
         handleClose();
+        if (modalTitle === "Add New") {
+            showAlert("success", "Note added successfully");
+        }
+        else{
+            showAlert("success", "Note updated successfully");
+        }
     }
     // function to clear note state value when user click on close button of new note modal
     const handelNewNoteOnClose = () => {

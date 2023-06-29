@@ -33,10 +33,11 @@ router.post('/savenotes', fetchUser,
     body("title", "Enter a valid title. Title require minimum 3 characters").isLength({ min: 1 }),
     body("description", "Enter a valid description. Description must contain atleast 8 characters.").isLength({ min: 1 })
     , async (req, res) => {
+        let req_status = false;
         // if there are errors then return bad request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ req_status, errors: errors.array() });
         }
         try {
             // saving new note according to the model defined in the Notes.js

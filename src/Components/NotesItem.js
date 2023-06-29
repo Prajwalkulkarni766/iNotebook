@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import noteContext from '../Contexts/notes/noteContext';
 import Card from 'react-bootstrap/Card';
 import NoteModal from './NoteModal';
@@ -22,7 +22,7 @@ export default function NotesItem(props) {
                     <div className="float-start">{props.note.date}</div>
                     <div className="float-end">
                         <i className="fa-solid fa-trash mx-1" style={{ color: "red" }} onClick={() => { DeleteNote(props.note._id); }}></i>
-                        <NoteModal iconType="fa-pen-to-square mx-1 text-primary" noteFunction={EditNote} modalTitle="Edit" valueForTitle={props.note.title} valueForDescription={props.note.description} noteId={props.note._id} />
+                        <NoteModal iconType="fa-pen-to-square mx-1 text-primary" noteFunction={EditNote} modalTitle="Edit" showAlert={props.showAlert} valueForTitle={props.note.title} valueForDescription={props.note.description} noteId={props.note._id} />
                     </div>
                 </Card.Footer>
             </Card>
